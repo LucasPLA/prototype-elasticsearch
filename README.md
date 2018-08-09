@@ -137,6 +137,7 @@ Le time filter permet de préciser quel champ Kibana considérera pour les reche
 ### discover
 
 Une interface pour avoir une vision sur le jeu de donnée. Il est possible de trier les entrée par une recherche proche de celles utilisées sur ES. Les tris peuvent être sauvegardés pour être utilisés dans une visualisation.
+https://www.elastic.co/guide/en/elasticsearch/reference/5.1/query-dsl-query-string-query.html#query-string-syntax
 https://www.cheatography.com/alasta/cheat-sheets/kibana-search-v5/
 
 ### visualize
@@ -170,7 +171,7 @@ L'outil de visualisation à ça de pratique qu'il inclu d'autres outils assez pe
 > "Timelion is the clawing, gnashing, zebra killing, pluggable time series interface for everything"
 pas très vegan ...
 
-L'outil permet de créer des timelines. Il est bien pratique et pas trop compliqué d'utilisation. Toutes les infos peuvent être trouvées sur la documentation ou directement sur l'outil. https://www.elastic.co/guide/en/kibana/current/timelion.html
+L'outil permet de créer des timelines. Il est très pratique et pas trop compliqué d'utilisation, avec des fonctionnalitées parfois vraiment adaptées au besoin. Toutes les infos peuvent être trouvées sur la documentation (https://www.elastic.co/guide/en/kibana/current/timelion.html) ou directement sur l'outil. Dommage qu'il n'y ait pas de feuille récap' des commandes timelion ...
 
 #### Vega et Canvas
 
