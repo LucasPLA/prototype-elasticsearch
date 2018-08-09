@@ -42,7 +42,19 @@ Il existe pas mal de possibilitées de manipulation des données, de filtrage, .
 Pour lancer plusieurs pipelines logstash simplement, il est possible de préciser les pipelines dans le fichier config/pipelines.yml ; il n’y aura ensuite plus qu’a lancer la commande bin/logstach
 https://www.elastic.co/guide/en/logstash/6.3/multiple-pipelines.html
 
-// TODO : TESTER QU'IL Y A BIEN LE MEME NOMBRE EN ENTRÉE QU'EN SORTIE
+### presentation du pipeline hq-pipeline.conf
+
+* input permet de spécifier les différentes entrées pour ce pipeline. Ici il n'y en a qu'une (via http sur le port 4440), mais on pourrait imaginer en avoir plusieurs. L'attribut 'codec' permet de spécifier à logstash le type des attributs qu'il reçoit, sachant que sans il est capable de se débrouiller mais peut commettre des erreurs.
+
+* filter permet de modifier à la volée le flux de donnée. Il existe une tonne d'extensions pour ce faire : https://www.elastic.co/guide/en/logstash/current/filter-plugins.html.
+Un des plus utile est probablement 'mutate' qui permet de modifier les données par des conversions, des copies, des renommages, ... Ici 'remove_field' permet de supprimer des champs des datas (et les données qui vont avec), les données que ces champs contenaient n'étaient pas pertinentes pour la suite; et 'rename' est un peu tricky : il renomme le champs data en un sous-champs de data (le champs 'comment', enfant de data et qui en est une copie, est créer à la volée). En soit, cette mutation n'est plus nécessaire sur ce pipeline, mais elle aurait permit de regrouper les documents 'CMT' et des macros dans un même index sans collisions de type sur le champs data.
+
+'json_encode' serialise un objet en json et le stringifie. On l'utilise ici pour stringifier tous les objets en provenance de "USR", car ceux-ci étant des tableaux d'objets de types différents, on aurait encore collision sur les types. Ainsi, les champs data de toutes données USR seront des chaines de caractères.
+https://www.elastic.co/guide/en/logstash/current/plugins-filters-json_encode.html
+
+* output sera là où l'on précisera vers où envoyer les données et comment. Il est ici assez facile à comprendre. A noter que propulser des données vers un index n'existant pas encore le créera (mapping dynamique).
+
+il est à tout moment possible de mettre des conditions sur les filtres, et même les entrées et les sorties.
 
 ## elasticsearch
 
@@ -181,6 +193,8 @@ Quant-à l'automatisation, logstash et ES incorpore une armée de plugins. Autom
 https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-templates.html
 
 ### exemples de questions
+
+trick intéressant : l'onglet 'Recherche structurée' d'ES-head permet de faire des recherches et peut afficher la requête source.
 
 * obtenir tous les enregistrements (de kermit et fozzy):
 
