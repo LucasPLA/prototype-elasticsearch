@@ -121,7 +121,7 @@ https://www.elastic.co/guide/en/elasticsearch/reference/current/parent-join.html
 
 Kibana est un outil de monitoring qui permet de créer des visualisations des données Elasticsearch.
 
-Installation simple (encore) : https://www.elastic.co/downloads/elasticsearch
+Installation simple (encore) : https://www.elastic.co/fr/downloads/kibana
 Pour lancer kibana :
 
 ```
@@ -160,7 +160,8 @@ Globalement, cela va permettre de définir le format des données de l'axe des X
 
 * Split Charts : permet de découper le diagramme en fonction d'autres champs. Un exemple ici : https://i.stack.imgur.com/4P7OK.png
 
-La periode sur laquelle on observe n'est pas définie lors de la visualisation mais en haut à droite. Elle est commune à toutes les visualisations que l'on fait. En haut à gauche, on a aussi la possibilité de filtrer les données utilisées.
+En haut à gauche, on a aussi la possibilité de filtrer les données utilisées (choisir si l'on veut un seul owner, choisir une fenêtre de temps sur laquelle observer, ...)
+La periode sur laquelle on observe peut aussi à tout moment être choisie en haut à droite. Elle est commune à toutes les visualisations que l'on fait. (il faut la considéré comme un filtre. Elle est appliquée même si un filtre sur la période d'observation avait été renseigné).
 
 L'outil de visualisation à ça de pratique qu'il inclu d'autres outils assez performants pour ce que ces outils de base ne font pas efficacement :
 
@@ -178,6 +179,11 @@ L'outil permet de créer des timelines. Il est bien pratique et pas trop compliq
 ### Dashboard
 
 Il suffit d'ajouter des visualisations déjà sauvegardées. On a la aussi la possibilité de choisir la période d'observation, la fréquence de rafraichissement des données affichées et d'appliquer des filtres.
+Je conseil de cocher la case 'Store time with dashboard', qui permet d'associer une période d'observation avec le dashboard.
+
+Les dashboards peuvent être exportés par une url (dans dashboard, share en haut à gauche); ou en json (dans management, saved objects). Une iframe du dashboard peut-être intégré à un site, et pour un test avec angular, c'est vraiment stylé. (/!\ En exportant un dashboard que j'étais en train d'éditer, le dashboard intégré dans angular pouvait aussi être édité ...)
+
+Un 'dark-theme' peut-être activé dans l'onglet edit/options du dashboard.
 
 ## viabilité de la stack Elastic pour la persistance des données et le monitoring
 
