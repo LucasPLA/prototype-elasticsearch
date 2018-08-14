@@ -109,15 +109,24 @@ ES étant RESTful, il peut être interrogé d'à peu près partout. Kibana poss�
 
 ### requêtage d'elasticsearch directement depuis les dev-tools
 
-ES possède à priori de nombreuses API javascript, et des paquets npm assez developpés
-https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/quick-start.html
-https://www.npmjs.com/package/elasticsearch
-
+Il est assez aisé d'interogger le serveur ES grâce au module http :
 ```
 this.http.get('http://localhost:9200/kermit/_search?q=(ctx:314)AND(type:MS)').subscribe(
   (value) => {console.log(value)}
 )
 ```
+
+Seulement les requêtes pouvant être assez complexes, cette méthode risque d'être limitée.
+
+ES possède à priori de nombreuses API javascript, et des paquets npm avec :
+https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/quick-start.html  
+https://www.npmjs.com/package/elasticsearch  
+
+Pour arriver à quelque chose sur angular, j'ai du pas mal batailler avec npm (les paquets ES semblent un peu vacillants) et une documentation peu dense et peu à jour; mais bon, comme ne le dirait pas Gilda, avec stack overflow on arrive finalement à tout. Un exemple bref [ICI](https://github.com/LucasPLA/prototype-elasticsearch/blob/master/angular/error-view.component.ts). 2 liens qui m'ont été utiles :
+https://grokonez.com/frontend/angular/angular-4-elasticsearch-example-quick-start-how-to-add-elasticsearch-js
+https://stackoverflow.com/questions/50313745/angular-6-process-is-not-defined-when-trying-to-serve-application/50313953
+
+https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/browser-builds.html
 
 ### parenté et arbre des macros appelées
 
