@@ -1,0 +1,129 @@
+PUT kermit 
+{
+  "mappings": {
+      "doc": {
+        "properties": {
+          "@timestamp": {
+            "type": "date"
+          },
+          "ctx": {
+            "type": "long"
+          },
+          "data": {
+            "properties": {
+              "debug": {
+                "type": "long"
+              },
+              "errors": {
+                "properties": {
+                  "code": {
+                    "type": "text",
+                    "fields": {
+                      "keyword": {
+                        "type": "keyword",
+                        "ignore_above": 256
+                      }
+                    }
+                  },
+                  "location": {
+                    "type": "text",
+                    "fields": {
+                      "keyword": {
+                        "type": "keyword",
+                        "ignore_above": 256
+                      }
+                    }
+                  },
+                  "message": {
+                    "type": "text",
+                    "fields": {
+                      "keyword": {
+                        "type": "keyword",
+                        "ignore_above": 256
+                      }
+                    }
+                  }
+                }
+              },
+              "hardFail": {
+                "type": "boolean"
+              },
+              "name": {
+                "type": "text",
+                "fields": {
+                  "keyword": {
+                    "type": "keyword",
+                    "ignore_above": 256
+                  }
+                }
+              },
+              "parameters": {
+                "enabled": false
+              },
+              "result": {
+                "enabled": false
+              },
+              "stats": {
+                "properties": {
+                  "cycles": {
+                    "type": "long"
+                  },
+                  "elapsedMillis": {
+                    "type": "long"
+                  },
+                  "nbCalls": {
+                    "type": "long"
+                  },
+                  "ram": {
+                    "type": "long"
+                  }
+                }
+              },
+              "targets": {
+                "type": "text",
+                "fields": {
+                  "keyword": {
+                    "type": "keyword",
+                    "ignore_above": 256
+                  }
+                }
+              }
+            }
+          },
+          "level": {
+            "type": "text",
+            "fields": {
+              "keyword": {
+                "type": "keyword",
+                "ignore_above": 256
+              }
+            }
+          },
+          "line": {
+            "type": "long"
+          },
+          "n": {
+            "type": "long"
+          },
+          "owner": {
+            "type": "text",
+            "fields": {
+              "keyword": {
+                "type": "keyword",
+                "ignore_above": 256
+              }
+            }
+          },
+          "type": {
+            "type": "text",
+            "fields": {
+              "keyword": {
+                "type": "keyword",
+                "ignore_above": 256
+              }
+            }
+          }
+        }
+      }
+  }
+}

@@ -3,6 +3,9 @@
 _Problématique_ : les sandboxes proposées aux clients génèrent des traces qu’il est utile de pouvoir inspecter. Seulement, à l’heure actuelle, les traces générées par les sandboxes ne sont pas persistées, il est seulement possible de les afficher en temps réel, et il est peu aisé de réaliser des recherches approfondies dessus.
 Ce rapport présente mes recherches sur un prototype avec la stack opensource elastic (Logstash, Elastic-Search, Kibana), permettant d’indexer les traces au fur et à mesure puis de réaliser des recherches dessus.
 
+rédaction : août 2018,
+version d'Elasticsearch : 6.3
+
 ## connexion
 
 Pour ce prototype, la connexion aux sandboxes pour récupérer les traces est effectuée par un serveur NodeJS. Sa seule utilité est de se connecter aux sandboxes puis de réinjecter ces traces dans la brique suivante de la stack : logstash.
@@ -97,6 +100,34 @@ Un peu comme une table SQL, ES va donner un type unique à chacun des champs que
 De base le mapping est dynamique et géré par ES, et c'est plutôt correct. En revanche, un problème qui s'est posé est qu'il lui est impossible d'assigner plusieurs types à un seul même champ (par exemple le champs 'data' des traces commentaire est une string tandis que celui des macros est un objet). Il faut séparer les données dans différents index ou les reformater (avoir un champs 'data' de type object contenant d'autres champs de nom et type différents) .
 
 Il est possible de changer ou de spécifier manuellement le mapping (l'index doit être écrasé d'abord) : https://www.elastic.co/guide/en/elasticsearch/reference/current/mapping.html
+
+Pour prévenir de toute collision et parce que tous les champs ne sont pas intéréssant à rechercher, il est possible de demander à ES de ne pas [analyser](https://www.elastic.co/guide/en/elasticsearch/reference/current/analyzer-anatomy.html) certains champs, en précisant le parametre [enable](https://www.elastic.co/guide/en/elasticsearch/reference/current/enabled.html).
+Dans notre cas, il est intéressant de désactiver les champs 'parameters' et 'result' de l'index des macro : kermit. Ils seront toujours enregistrés et récupérable, mais il n'est plus possible de faire de recherche dessus. Ci-dessous un mapping pour préciser la désactivation. En cas de problème avec celui-ci, un mapping plus complet est disponible [ici]().
+
+```
+PUT kermit
+{
+  "mappings": {
+    "doc": {
+      "dynamic": "true",
+      "properties": {
+        "data": {
+          "properties": {
+            "parameters": {
+              "enabled": false
+            },
+            "result": {
+              "enabled": false
+            }
+          }
+        }
+      }
+    }
+  }
+}
+```
+
+Note: la version lors de la rédaction de ce rapport est ES 6.3, il se peut que dans la version 7 le mapping soit tout simplement retirée.
 
 ### requete sur l'elasticsearch
 
