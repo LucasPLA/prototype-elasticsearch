@@ -101,8 +101,8 @@ De base le mapping est dynamique et géré par ES, et c'est plutôt correct. En 
 
 Il est possible de changer ou de spécifier manuellement le mapping (l'index doit être écrasé d'abord) : https://www.elastic.co/guide/en/elasticsearch/reference/current/mapping.html
 
-Pour prévenir de toute collision et parce que tous les champs ne sont pas intéréssant à rechercher, il est possible de demander à ES de ne pas [analyser](https://www.elastic.co/guide/en/elasticsearch/reference/current/analyzer-anatomy.html) certains champs, en précisant le parametre [enable](https://www.elastic.co/guide/en/elasticsearch/reference/current/enabled.html).
-Dans notre cas, il est intéressant de désactiver les champs 'parameters' et 'result' de l'index des macro : kermit. Ils seront toujours enregistrés et récupérable, mais il n'est plus possible de faire de recherche dessus. Ci-dessous un mapping pour préciser la désactivation. En cas de problème avec celui-ci, un mapping plus complet est disponible [ici]().
+Pour prévenir de toute collision et parce que tous les champs ne sont pas toujours intéressant à rechercher, il est possible de demander à ES de ne pas [analyser](https://www.elastic.co/guide/en/elasticsearch/reference/current/analyzer-anatomy.html) certains champs, en précisant le paramètre [enable](https://www.elastic.co/guide/en/elasticsearch/reference/current/enabled.html).
+Dans notre cas, il est intéressant de désactiver les champs 'parameters' et 'result' de l'index des macro : kermit. Ils seront toujours enregistrés et récupérable, mais il n'est plus possible de faire de recherche dessus. Ci-dessous un mapping pour préciser la désactivation. En cas de problème avec celui-ci, un mapping plus complet est disponible [ici](https://github.com/LucasPLA/prototype-elasticsearch/blob/master/mapping).
 
 ```
 PUT kermit
@@ -127,7 +127,7 @@ PUT kermit
 }
 ```
 
-Note: la version lors de la rédaction de ce rapport est ES 6.3, il se peut que dans la version 7 le mapping soit tout simplement retirée.
+Note: la version lors de la rédaction de ce rapport est ES 6.3, il se peut que dans la version 7 le mapping soit tout simplement retiré.
 
 ### requete sur l'elasticsearch
 
@@ -219,10 +219,6 @@ L'outil de visualisation à ça de pratique qu'il inclu d'autres outils assez pe
 pas très vegan ...
 
 L'outil permet de créer des timelines. Il est très pratique et pas trop compliqué d'utilisation, avec des fonctionnalitées parfois vraiment adaptées au besoin. Toutes les infos peuvent être trouvées sur la documentation (https://www.elastic.co/guide/en/kibana/current/timelion.html) ou directement sur l'outil. Dommage qu'il n'y ait pas de feuille récap' des commandes timelion ...
-
-#### Vega et Canvas
-
-// TO BE DONE
 
 ### Dashboard
 
