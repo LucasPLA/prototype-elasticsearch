@@ -156,7 +156,7 @@ https://www.npmjs.com/package/elasticsearch
 Pour arriver à quelque chose sur angular, j'ai du pas mal batailler avec npm (les paquets ES semblent un peu vacillants) et une documentation peu dense et peu à jour; mais bon, comme ne le dirait pas Gilda, avec stack overflow on arrive finalement à tout. Un exemple bref [ICI](https://github.com/LucasPLA/prototype-elasticsearch/blob/master/angular/error-view.component.ts). 2 liens qui m'ont été utiles :  
 https://grokonez.com/frontend/angular/angular-4-elasticsearch-example-quick-start-how-to-add-elasticsearch-js  
 https://stackoverflow.com/questions/50313745/angular-6-process-is-not-defined-when-trying-to-serve-application/50313953  
-(peut-être sera t-il nécessaire d'installer le browser build) https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/browser-builds.html
+(peut-être sera t-il nécessaire d'installer le [browser build](https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/browser-builds.html)) 
 
 ### parenté et arbre des macros appelées
 
@@ -211,7 +211,9 @@ Globalement, cela va permettre de définir le format des données de l'axe des X
 En haut à gauche, on a aussi la possibilité de filtrer les données utilisées (choisir si l'on veut un seul owner, choisir une fenêtre de temps sur laquelle observer, ...)
 La periode sur laquelle on observe peut aussi à tout moment être choisie en haut à droite. Elle est commune à toutes les visualisations que l'on fait. (il faut la considéré comme un filtre. Elle est appliquée même si un filtre sur la période d'observation avait été renseigné).
 
-L'outil de visualisation à ça de pratique qu'il inclu d'autres outils assez performants pour ce que ces outils de base ne font pas efficacement :
+Pour __resumer__ le fonctionnement de l'outil vizualise : on choisi de manière générale la forme de la vizualisation grâce aux aggrégations, et si l'on a besoin de préciser les données (prendre juste un owner, ...), le temps, on peut utiliser les filtres.
+
+L'outil de visualisation n'est pas performant sur toute la ligne, et il est parfois un peu épineux de savoir comment s'y prendre. Heureuse nouvelle : la team Kibana dévellope de nouveaux outils assez puissants pour pallier les manques de vizualise :
 
 #### Timelion
 
@@ -219,6 +221,42 @@ L'outil de visualisation à ça de pratique qu'il inclu d'autres outils assez pe
 pas très vegan ...
 
 L'outil permet de créer des timelines. Il est très pratique et pas trop compliqué d'utilisation, avec des fonctionnalitées parfois vraiment adaptées au besoin. Toutes les infos peuvent être trouvées sur la documentation (https://www.elastic.co/guide/en/kibana/current/timelion.html) ou directement sur l'outil. Dommage qu'il n'y ait pas de feuille récap' des commandes timelion ...
+
+#### Vega
+
+Un outil actuellement en beta, mais qui pourrait devenir très pratique.
+Il permet de faire l'équivalent de l'outil vizualise, mais en définissant la vue grâce à un langage, ce qui apporte plus de flexibilité et des fonctionnalitées essentielles si l'on veut pouvoir faire des visualisations exactement comme on le souhaite, comme lancer un graphique sur les résultats d'une recherche ES. Ci-dessous un exemple : on souhaite afficher un barchart sur le temps de chaque appel de macro, soit récupérer un object nesté dans le document dont le 'n' est le maximum pour chaque 'ctx' (impossible sans vega). A la suite, la recherche Elasticsearch :
+
+```
+POST /kermit/_search
+{
+  "size": 0,
+  "aggs": {
+    "counters": {
+      "terms": { "field": "ctx", "size": 50 },
+      "aggs": {
+        "hits": {
+          "top_hits": {
+            "sort": [
+              {
+                "n": {
+                  "order": "desc"
+                }
+              }
+            ],
+            "size": 1
+          }
+        }
+      }
+    }
+  }
+}
+```
+(TO IMPROVE : https://www.elastic.co/guide/en/elasticsearch/reference/current/search-aggregations-bucket-composite-aggregation.html)
+
+La configuration vega peut être retrouvée [ici]().
+
+Vega, ce n'est pas seulement vizualise sous la forme d'un langage. L'outil permet également de créer toute une panoplie de graphiques aussi esthétiques que mystérieux de sens. D'autres exemples [ici](https://vega.github.io/vega/examples/).
 
 ### Dashboard
 

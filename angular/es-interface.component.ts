@@ -3,10 +3,10 @@ import { Component, OnInit } from '@angular/core';
 import { Client } from 'elasticsearch';
 
 @Component({
-  selector: 'zp-error-view',
-  templateUrl: './error-view.component.html',
+  selector: 'zp-es-interface',
+  templateUrl: './issou.component.html',
 })
-export class ErrorViewComponent {
+export class EsInterfaceComponent {
   private client: Client;
  
   ngOnInit() {

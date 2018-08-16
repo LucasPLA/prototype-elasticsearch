@@ -1,0 +1,59 @@
+{
+  $schema: https://vega.github.io/schema/vega-lite/v2.json
+  title: Elapsed Time for each macro
+
+  // Define the data source
+  data: {
+    url: {
+      // Which index to search
+      index: kermit
+      // custom research directly into Elasticsearch
+      body: {
+        "size": 0,
+        "aggs": {
+          "counters": {
+            "terms": { "field": "ctx", "size": 50 },
+            "aggs": {
+              "hits": {
+                "top_hits": {
+                  "sort": [
+                    {
+                      "n": {
+                        "order": "desc"
+                      }
+                    }
+                  ],
+                  "size": 1
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+
+/* I don't exactly understand what's the goal of this format field, but without it, it doesn't works, so ...
+  'counters' refer to the name i gave to the top aggregation above
+*/
+    format: {property: "aggregations.counters.buckets"}
+  }
+
+  // "mark" is the graphics element used to show our data.  Other mark values are: area, bar, circle, line, point, rect, rule, square, text, and tick.  See https://vega.github.io/vega-lite/docs/mark.html
+  mark: bar
+
+  // "encoding" tells the "mark" what data to use and in what way.  See https://vega.github.io/vega-lite/docs/encoding.html
+  encoding: {
+    x: {
+      //path to the 'name' field in the results from ES.
+      field: hits.hits.hits[0]._source.data.name
+      type: nominal
+      axis: {title: "macros"} // Customize X axis format
+    }
+    y: {
+      field: hits.hits.hits[0]._source.data.stats.elapsedMillis
+      type: quantitative
+      axis: {title: "Elapsed Time (milisecond)"}
+    }
+  }
+}
